@@ -43,9 +43,10 @@ const CreateSessionPage = () => {
       setLoading(true);
       console.log('التوكن المستخدم:', user.token);
       console.log('البيانات المرسلة:', formData);
+      console.log('عنوان API:', config.API_URL);
       
       // تكوين الهيدر
-      const config = {
+      const headers = {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${user.token}`
@@ -54,7 +55,7 @@ const CreateSessionPage = () => {
       
       // إرسال طلب إنشاء الجلسة
       console.log('إرسال طلب إنشاء الجلسة...');
-      const response = await axios.post(`${config.API_URL}/sessions/create`, formData, config);
+      const response = await axios.post(`${config.API_URL}/sessions/create`, formData, headers);
       console.log('استجابة الخادم:', response.data);
       
       setLoading(false);
