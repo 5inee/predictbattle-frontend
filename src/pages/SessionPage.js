@@ -174,4 +174,94 @@ const SessionPage = () => {
         </div>
       </div>
       
-      <div className="ses
+      <div className="session-content">
+        {/* عرض نموذج التوقع إذا لم يكن المستخدم قد قدم توقعًا بعد */}
+        {!userHasPredicted && (
+          <div className="prediction-form-container">
+            <h2 className="section-title">أدخل توقعك</h2>
+            
+            {errorMessage && (
+              <div className="alert alert-error">{errorMessage}</div>
+            )}
+            
+            {successMessage && (
+              <div className="alert alert-success">{successMessage}</div>
+            )}
+            
+            <form onSubmit={handleSubmit} className="prediction-form">
+              <div className="form-group">
+                <textarea
+                  className="form-control"
+                  value={prediction}
+                  onChange={(e) => setPrediction(e.target.value)}
+                  placeholder="اكتب توقعك هنا..."
+                  rows={4}
+                ></textarea>
+              </div>
+              
+              <button 
+                type="submit" 
+                className="btn btn-primary"
+                disabled={submitting}
+              >
+                {submitting ? 'جارِ الإرسال...' : 'إرسال التوقع'}
+              </button>
+            </form>
+            
+            {/* رسالة إخبارية للمستخدم بضرورة إرسال التوقع أولاً */}
+            <div className="alert alert-info mt-4">
+              <p>
+                <strong>ملاحظة:</strong> يجب عليك إرسال توقعك أولاً قبل أن تتمكن من مشاهدة توقعات المشاركين الآخرين.
+              </p>
+            </div>
+          </div>
+        )}
+        
+        {/* عرض التوقعات فقط إذا كان المستخدم قد قدم توقعًا */}
+        {userHasPredicted && (
+          <div className="predictions-container">
+            <h2 className="section-title">
+              التوقعات
+              <span className="predictions-count">
+                {session.predictions.length}/{session.participants.length}
+              </span>
+            </h2>
+            
+            {session.predictions.length === 0 ? (
+              <div className="empty-predictions">
+                <p>لا توجد توقعات حتى الآن.</p>
+              </div>
+            ) : (
+              <div className="predictions-list">
+                {session.predictions.map((prediction) => (
+                  <PredictionItem 
+                    key={prediction._id} 
+                    prediction={prediction}
+                    isCurrentUser={prediction.user._id === user._id}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        
+        {/* إظهار رسالة للمستخدم عند إرسال التوقع في حالة عدم وجود توقعات أخرى */}
+        {userHasPredicted && session.predictions.length <= 1 && (
+          <div className="alert alert-info mt-4">
+            <p>
+              <strong>أنت أول من قدم توقعًا!</strong> توقعات المشاركين الآخرين ستظهر هنا بمجرد إرسالها.
+            </p>
+          </div>
+        )}
+      </div>
+      
+      <div className="session-footer">
+        <Link to="/dashboard" className="btn btn-secondary">
+          العودة إلى لوحة التحكم
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default SessionPage;
