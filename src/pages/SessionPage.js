@@ -14,6 +14,7 @@ const SessionPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [copied, setCopied] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
   
   const { id } = useParams();
   const { user } = useContext(UserContext);
@@ -31,28 +32,34 @@ const SessionPage = () => {
       };
       
       // جلب البيانات
+      console.log('جلب بيانات الجلسة:', `${config.API_URL}/sessions/${id}`);
       const { data } = await axios.get(`${config.API_URL}/sessions/${id}`, headers);
       
+      console.log('تم استلام بيانات الجلسة:', data.session);
       setSession(data.session);
       setLoading(false);
     } catch (error) {
+      console.error('خطأ في جلب بيانات الجلسة:', error);
       setErrorMessage('حدث خطأ أثناء جلب بيانات الجلسة');
       setLoading(false);
     }
   }, [id, user.token]);
   
-  // تحميل البيانات عند تحميل الصفحة
+  // تحميل البيانات عند تحميل الصفحة أو تغيير مفتاح التحديث
   useEffect(() => {
     fetchSession();
-  }, [fetchSession]);
+  }, [fetchSession, refreshKey]);
   
   // التحقق من أن المستخدم قدم توقعًا بالفعل
   const hasSubmittedPrediction = () => {
     if (!session || !session.predictions) return false;
     
-    return session.predictions.some(
+    const hasSubmitted = session.predictions.some(
       prediction => prediction.user._id === user._id
     );
+    
+    console.log('هل قدم المستخدم توقعًا؟', hasSubmitted);
+    return hasSubmitted;
   };
   
   // نسخ كود الجلسة
@@ -91,17 +98,31 @@ const SessionPage = () => {
       };
       
       // إرسال التوقع
+      console.log('إرسال التوقع:', { sessionId: id, text: prediction });
       const { data } = await axios.post(
         `${config.API_URL}/sessions/predict`,
         { sessionId: id, text: prediction },
         headers
       );
       
+      // الطباعة للتحقق من البيانات المستلمة
+      console.log('بيانات الجلسة المحدثة:', data.session);
+      
+      // تحديث الجلسة المحلية
       setSession(data.session);
       setSuccessMessage('تم إرسال توقعك بنجاح');
       setPrediction('');
       setSubmitting(false);
+      
+      // تحديث مفتاح التحديث لإجبار الصفحة على إعادة التحميل
+      setRefreshKey(oldKey => oldKey + 1);
+      
+      // إعادة جلب بيانات الجلسة للتأكد من استلام أحدث البيانات
+      setTimeout(() => {
+        fetchSession();
+      }, 500);
     } catch (error) {
+      console.error('خطأ في إرسال التوقع:', error);
       setErrorMessage(error.response?.data?.message || 'حدث خطأ أثناء إرسال التوقع');
       setSubmitting(false);
     }
@@ -235,7 +256,7 @@ const SessionPage = () => {
               <div className="predictions-list">
                 {session.predictions.map((prediction) => (
                   <PredictionItem 
-                    key={prediction._id} 
+                    key={prediction._id || Math.random().toString()} 
                     prediction={prediction}
                     isCurrentUser={prediction.user._id === user._id}
                   />

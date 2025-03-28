@@ -1,7 +1,14 @@
+// في ملف PredictionItem.js
 import React from 'react';
 import './PredictionItem.css';
 
 const PredictionItem = ({ prediction, isCurrentUser }) => {
+  // التأكد من وجود بيانات المستخدم
+  if (!prediction || !prediction.user) {
+    console.error('خطأ: بيانات التوقع أو المستخدم غير متوفرة', prediction);
+    return null;
+  }
+
   // تنسيق التاريخ والوقت
   const formatDateTime = (dateString) => {
     const options = { 
@@ -19,25 +26,20 @@ const PredictionItem = ({ prediction, isCurrentUser }) => {
     return username.charAt(0).toUpperCase();
   };
 
-  // توليد لون للصورة الرمزية باستخدام خوارزمية HSL للحصول على ألوان متباينة
-  // HSL يتيح التحكم في تشبع ولمعان الألوان بينما نختلف في درجة اللون فقط
+  // توليد لون للصورة الرمزية
   const getAvatarColor = (username) => {
-    // استخدام اسم المستخدم لتوليد قيمة فريدة
     let hash = 0;
     for (let i = 0; i < username.length; i++) {
       hash = username.charCodeAt(i) + ((hash << 5) - hash);
     }
-    
-    // توليد زاوية اللون (Hue) من 0 إلى 360 بناءً على الهاش
-    // نضرب بـ 137.508 (زاوية ذهبية) للحصول على توزيع جيد للألوان
     const hue = Math.floor((Math.abs(hash) * 137.508) % 360);
-    
-    // استخدام تشبع ولمعان ثابتين للحصول على ألوان مشرقة ومريحة للعين
-    const saturation = 75;  // 75% تشبع
-    const lightness = 60;   // 60% لمعان
-    
+    const saturation = 75;
+    const lightness = 60;
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
+
+  // طباعة للتحقق من البيانات
+  console.log('عرض التوقع:', prediction);
 
   return (
     <div className={`prediction-item ${isCurrentUser ? 'current-user' : ''}`}>
