@@ -1,4 +1,3 @@
-// في ملف PredictionItem.js
 import React from 'react';
 import './PredictionItem.css';
 
@@ -38,8 +37,11 @@ const PredictionItem = ({ prediction, isCurrentUser }) => {
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
 
-  // طباعة للتحقق من البيانات
-  console.log('عرض التوقع:', prediction);
+  // توليد معرف مختصر
+  const getShortId = (id) => {
+    if (!id) return '';
+    return id.substring(0, 6);
+  };
 
   return (
     <div className={`prediction-item ${isCurrentUser ? 'current-user' : ''}`}>
@@ -59,10 +61,21 @@ const PredictionItem = ({ prediction, isCurrentUser }) => {
             <div className="prediction-time">{formatDateTime(prediction.createdAt)}</div>
           </div>
         </div>
+        
+        <div className="prediction-meta">
+          <div className="prediction-id">#{getShortId(prediction._id)}</div>
+        </div>
       </div>
       
       <div className="prediction-content">
         <p>{prediction.text}</p>
+      </div>
+      
+      <div className="prediction-footer">
+        <div className="prediction-actions">
+          <button className="prediction-action action-like">أعجبني</button>
+          <button className="prediction-action action-share">مشاركة</button>
+        </div>
       </div>
     </div>
   );

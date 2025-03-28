@@ -24,6 +24,18 @@ const CreateSessionPage = () => {
     setErrorMessage('');
   };
   
+  const increaseMaxPlayers = () => {
+    if (maxPlayers < 20) {
+      setFormData({ ...formData, maxPlayers: maxPlayers + 1 });
+    }
+  };
+  
+  const decreaseMaxPlayers = () => {
+    if (maxPlayers > 2) {
+      setFormData({ ...formData, maxPlayers: maxPlayers - 1 });
+    }
+  };
+  
   const onSubmit = async (e) => {
     e.preventDefault();
     
@@ -41,9 +53,6 @@ const CreateSessionPage = () => {
     
     try {
       setLoading(true);
-      console.log('التوكن المستخدم:', user.token);
-      console.log('البيانات المرسلة:', formData);
-      console.log('عنوان API:', config.API_URL);
       
       // تكوين الهيدر
       const headers = {
@@ -54,9 +63,7 @@ const CreateSessionPage = () => {
       };
       
       // إرسال طلب إنشاء الجلسة
-      console.log('إرسال طلب إنشاء الجلسة...');
       const response = await axios.post(`${config.API_URL}/sessions/create`, formData, headers);
-      console.log('استجابة الخادم:', response.data);
       
       setLoading(false);
       
@@ -68,7 +75,6 @@ const CreateSessionPage = () => {
         error.response?.data?.message || 
         'حدث خطأ أثناء إنشاء الجلسة، يرجى المحاولة مرة أخرى'
       );
-      console.log('تفاصيل الخطأ:', error.response?.data);
       setLoading(false);
     }
   };
@@ -77,16 +83,19 @@ const CreateSessionPage = () => {
     <div className="create-session-page">
       <div className="page-header">
         <h1 className="page-title">إنشاء جلسة توقع جديدة</h1>
+        <p className="page-subtitle">
+          أنشئ تحديًا جديدًا واجمع توقعات المشاركين حول أي موضوع تختاره
+        </p>
       </div>
       
-      <div className="card form-card">
+      <div className="form-card">
         {errorMessage && (
           <div className="alert alert-error">{errorMessage}</div>
         )}
         
         <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <label htmlFor="title">سؤال التحدي</label>
+          <div className="form-section">
+            <h3 className="section-label">سؤال التحدي</h3>
             <textarea
               id="title"
               name="title"
@@ -96,47 +105,64 @@ const CreateSessionPage = () => {
               placeholder="اكتب سؤال التحدي هنا... مثال: من سيفوز بكأس العالم 2026؟"
               rows={4}
             ></textarea>
+            <small className="form-text">
+              اكتب سؤالًا واضحًا يمكن للمشاركين التنبؤ بنتيجته
+            </small>
           </div>
           
-          <div className="form-group">
-            <label htmlFor="maxPlayers">عدد اللاعبين (2-20)</label>
-            <input
-              type="number"
-              id="maxPlayers"
-              name="maxPlayers"
-              className="form-control"
-              value={maxPlayers}
-              onChange={onChange}
-              min={2}
-              max={20}
-            />
+          <div className="form-section">
+            <h3 className="section-label">عدد المشاركين</h3>
+            <div className="input-counter">
+              <button 
+                type="button" 
+                className="counter-btn" 
+                onClick={decreaseMaxPlayers}
+                disabled={maxPlayers <= 2}
+              >
+                -
+              </button>
+              <div className="counter-value">{maxPlayers}</div>
+              <button 
+                type="button" 
+                className="counter-btn" 
+                onClick={increaseMaxPlayers}
+                disabled={maxPlayers >= 20}
+              >
+                +
+              </button>
+            </div>
+            <small className="form-text">
+              حدد العدد الأقصى للمشاركين في هذه الجلسة (من 2 إلى 20)
+            </small>
           </div>
           
-          <div className="form-group">
-            <label htmlFor="secretCode">الرمز السري</label>
+          <div className="form-section">
+            <h3 className="section-label">الرمز السري</h3>
             <input
               type="text"
               id="secretCode"
               name="secretCode"
-              className="form-control"
+              className="form-control code-input"
               value={secretCode}
               onChange={onChange}
               placeholder="أدخل الرمز السري (021)"
             />
-            <small className="form-text">الرمز السري مطلوب لمنع إنشاء جلسات عشوائية</small>
+            <small className="form-text">
+              الرمز السري مطلوب لمنع إنشاء جلسات عشوائية
+            </small>
           </div>
           
           <div className="form-actions">
             <button 
               type="submit" 
-              className="btn btn-primary"
+              className="btn btn-primary submit-btn"
               disabled={loading}
             >
               {loading ? 'جارِ الإنشاء...' : 'ابدأ الجلسة'}
             </button>
             
-            <Link to="/dashboard" className="btn btn-text">
-              العودة
+            <Link to="/dashboard" className="btn btn-text back-btn">
+              العودة إلى لوحة التحكم
             </Link>
           </div>
         </form>

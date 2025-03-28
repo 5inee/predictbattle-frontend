@@ -32,10 +32,8 @@ const SessionPage = () => {
       };
       
       // جلب البيانات
-      console.log('جلب بيانات الجلسة:', `${config.API_URL}/sessions/${id}`);
       const { data } = await axios.get(`${config.API_URL}/sessions/${id}`, headers);
       
-      console.log('تم استلام بيانات الجلسة:', data.session);
       setSession(data.session);
       setLoading(false);
     } catch (error) {
@@ -58,7 +56,6 @@ const SessionPage = () => {
       prediction => prediction.user._id === user._id
     );
     
-    console.log('هل قدم المستخدم توقعًا؟', hasSubmitted);
     return hasSubmitted;
   };
   
@@ -98,15 +95,11 @@ const SessionPage = () => {
       };
       
       // إرسال التوقع
-      console.log('إرسال التوقع:', { sessionId: id, text: prediction });
       const { data } = await axios.post(
         `${config.API_URL}/sessions/predict`,
         { sessionId: id, text: prediction },
         headers
       );
-      
-      // الطباعة للتحقق من البيانات المستلمة
-      console.log('بيانات الجلسة المحدثة:', data.session);
       
       // تحديث الجلسة المحلية
       setSession(data.session);
@@ -138,7 +131,7 @@ const SessionPage = () => {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <p>جارِ تحميل بيانات الجلسة...</p>
+        <p className="loading-text">جارِ تحميل بيانات الجلسة...</p>
       </div>
     );
   }
@@ -146,6 +139,7 @@ const SessionPage = () => {
   if (!session) {
     return (
       <div className="error-container">
+        <div className="error-icon">⚠️</div>
         <h2>خطأ في تحميل الجلسة</h2>
         <p>{errorMessage}</p>
         <Link to="/dashboard" className="btn btn-primary">
@@ -176,17 +170,17 @@ const SessionPage = () => {
             </button>
           </div>
           
-          <div className="session-info">
+          <div className="session-info date">
             <span className="meta-label">تاريخ الإنشاء:</span>
             <span>{formatDate(session.createdAt)}</span>
           </div>
           
-          <div className="session-info">
+          <div className="session-info participants">
             <span className="meta-label">المشاركون:</span>
             <span>{session.participants.length}/{session.maxPlayers}</span>
           </div>
           
-          <div className="session-info">
+          <div className="session-status-container">
             <span className="meta-label">الحالة:</span>
             <span className={`session-status ${session.isComplete ? 'complete' : 'active'}`}>
               {session.isComplete ? 'مكتملة' : 'نشطة'}
@@ -199,7 +193,7 @@ const SessionPage = () => {
         {/* عرض نموذج التوقع إذا لم يكن المستخدم قد قدم توقعًا بعد */}
         {!userHasPredicted && (
           <div className="prediction-form-container">
-            <h2 className="section-title">أدخل توقعك</h2>
+            <h2 className="section-title prediction">أدخل توقعك</h2>
             
             {errorMessage && (
               <div className="alert alert-error">{errorMessage}</div>
@@ -212,7 +206,7 @@ const SessionPage = () => {
             <form onSubmit={handleSubmit} className="prediction-form">
               <div className="form-group">
                 <textarea
-                  className="form-control"
+                  className="form-control prediction-textarea"
                   value={prediction}
                   onChange={(e) => setPrediction(e.target.value)}
                   placeholder="اكتب توقعك هنا..."
@@ -222,7 +216,7 @@ const SessionPage = () => {
               
               <button 
                 type="submit" 
-                className="btn btn-primary"
+                className="btn btn-primary submit-prediction-btn"
                 disabled={submitting}
               >
                 {submitting ? 'جارِ الإرسال...' : 'إرسال التوقع'}
@@ -241,7 +235,7 @@ const SessionPage = () => {
         {/* عرض التوقعات فقط إذا كان المستخدم قد قدم توقعًا */}
         {userHasPredicted && (
           <div className="predictions-container">
-            <h2 className="section-title">
+            <h2 className="section-title predictions">
               التوقعات
               <span className="predictions-count">
                 {session.predictions.length}/{session.participants.length}
@@ -250,6 +244,7 @@ const SessionPage = () => {
             
             {session.predictions.length === 0 ? (
               <div className="empty-predictions">
+                <div className="empty-predictions-icon">📝</div>
                 <p>لا توجد توقعات حتى الآن.</p>
               </div>
             ) : (
@@ -277,7 +272,7 @@ const SessionPage = () => {
       </div>
       
       <div className="session-footer">
-        <Link to="/dashboard" className="btn btn-secondary">
+        <Link to="/dashboard" className="btn btn-secondary back-to-dashboard">
           العودة إلى لوحة التحكم
         </Link>
       </div>

@@ -10,6 +10,7 @@ const RegisterPage = () => {
     confirmPassword: ''
   });
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   
   const { user, registerUser, error, setError } = useContext(UserContext);
   const navigate = useNavigate();
@@ -56,8 +57,13 @@ const RegisterPage = () => {
       return;
     }
     
+    // ضبط حالة التحميل
+    setIsLoading(true);
+    
     // محاولة إنشاء الحساب
     const result = await registerUser({ username, password });
+    
+    setIsLoading(false);
     
     if (result.error) {
       setErrorMessage(result.error);
@@ -66,79 +72,96 @@ const RegisterPage = () => {
   
   return (
     <div className="auth-page">
-      <div className="auth-card">
-        <h2 className="auth-title">إنشاء حساب</h2>
+      <div className="auth-container">
+        <div className="auth-image">
+          <div className="auth-image-content">
+            <h2 className="auth-image-title">انضم إلينا اليوم!</h2>
+            <p className="auth-image-description">
+              أنشئ حسابك وابدأ رحلة التوقعات والتحديات مع أصدقائك وزملائك
+            </p>
+          </div>
+        </div>
         
-        {errorMessage && (
-          <div className="alert alert-error">{errorMessage}</div>
-        )}
-        
-        <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">اسم المستخدم</label>
-            <div className="input-group">
-              <span className="input-icon">👤</span>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                className="form-control"
-                value={username}
-                onChange={onChange}
-                placeholder="أدخل اسم المستخدم"
-              />
+        <div className="auth-form">
+          <div className="auth-card">
+            <h2 className="auth-title">إنشاء حساب</h2>
+            
+            {errorMessage && (
+              <div className="alert alert-error">{errorMessage}</div>
+            )}
+            
+            <form onSubmit={onSubmit}>
+              <div className="input-group">
+                <label className="input-label" htmlFor="username">اسم المستخدم</label>
+                <div className="input-wrapper">
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    className="form-control"
+                    value={username}
+                    onChange={onChange}
+                    placeholder="أدخل اسم المستخدم"
+                  />
+                  <span className="input-icon">👤</span>
+                </div>
+              </div>
+              
+              <div className="input-group">
+                <label className="input-label" htmlFor="password">كلمة المرور</label>
+                <div className="input-wrapper">
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    className="form-control"
+                    value={password}
+                    onChange={onChange}
+                    placeholder="أدخل كلمة المرور (6 أحرف على الأقل)"
+                  />
+                  <span className="input-icon">🔒</span>
+                </div>
+              </div>
+              
+              <div className="input-group">
+                <label className="input-label" htmlFor="confirmPassword">تأكيد كلمة المرور</label>
+                <div className="input-wrapper">
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    className="form-control"
+                    value={confirmPassword}
+                    onChange={onChange}
+                    placeholder="أعد إدخال كلمة المرور"
+                  />
+                  <span className="input-icon">🔒</span>
+                </div>
+              </div>
+              
+              <button 
+                type="submit" 
+                className="btn btn-primary btn-block auth-btn"
+                disabled={isLoading}
+              >
+                {isLoading ? 'جارِ إنشاء الحساب...' : 'إنشاء حساب'}
+              </button>
+            </form>
+            
+            <div className="auth-links">
+              <p>
+                لديك حساب بالفعل؟{' '}
+                <Link to="/login" className="auth-link">
+                  تسجيل الدخول
+                </Link>
+              </p>
+              <p>
+                <Link to="/" className="auth-link">
+                  العودة للصفحة الرئيسية
+                </Link>
+              </p>
             </div>
           </div>
-          
-          <div className="form-group">
-            <label htmlFor="password">كلمة المرور</label>
-            <div className="input-group">
-              <span className="input-icon">🔒</span>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="form-control"
-                value={password}
-                onChange={onChange}
-                placeholder="أدخل كلمة المرور (6 أحرف على الأقل)"
-              />
-            </div>
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="confirmPassword">تأكيد كلمة المرور</label>
-            <div className="input-group">
-              <span className="input-icon">🔒</span>
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                className="form-control"
-                value={confirmPassword}
-                onChange={onChange}
-                placeholder="أعد إدخال كلمة المرور"
-              />
-            </div>
-          </div>
-          
-          <button type="submit" className="btn btn-primary btn-block mb-3">
-            إنشاء حساب
-          </button>
-        </form>
-        
-        <div className="auth-links">
-          <p>
-            لديك حساب بالفعل؟{' '}
-            <Link to="/login" className="auth-link">
-              اضغط هنا لتسجيل الدخول
-            </Link>
-          </p>
-          <p>
-            <Link to="/" className="auth-link">
-              العودة للصفحة الرئيسية
-            </Link>
-          </p>
         </div>
       </div>
     </div>
