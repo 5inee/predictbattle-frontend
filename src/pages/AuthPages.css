@@ -66,6 +66,7 @@
   font-size: 2rem;
   margin-bottom: 1.5rem;
   font-weight: 700;
+  color: white;
 }
 
 .auth-image-description {
@@ -73,6 +74,7 @@
   font-size: 1.1rem;
   opacity: 0.9;
   line-height: 1.6;
+  color: white;
 }
 
 .auth-image::before, .auth-image::after {
@@ -149,20 +151,7 @@
   align-items: center;
 }
 
-.input-icon {
-  position: absolute;
-  right: 1rem;
-  color: #adb5bd;
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-}
-
-.form-control:focus + .input-icon {
-  color: var(--primary-color);
-}
-
 .form-control {
-  padding-right: 3rem;
   border: 1px solid #dee2e6;
   background-color: #f8f9fa;
   transition: all 0.3s ease;
@@ -241,37 +230,6 @@
   padding: 0 1rem;
 }
 
-.social-logins {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.social-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.social-btn:hover {
-  background-color: #f1f3f5;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  transform: translateY(-3px);
-}
-
-.social-icon {
-  font-size: 1.5rem;
-  color: #6c757d;
-}
-
 .alert {
   margin-bottom: 1.5rem;
   display: flex;
@@ -316,10 +274,5 @@
   
   .auth-title {
     font-size: 1.5rem;
-  }
-  
-  .social-logins {
-    flex-wrap: wrap;
-    justify-content: center;
   }
 }

@@ -14,26 +14,6 @@ const HomePage = () => {
     }
   }, [user, navigate]);
 
-  // للمراوحة بين الظهور التدريجي للعناصر
-  useEffect(() => {
-    const fadeElements = document.querySelectorAll('.fade-in');
-    const slideElements = document.querySelectorAll('.slide-in');
-    
-    fadeElements.forEach((el, index) => {
-      setTimeout(() => {
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
-      }, 200 * index);
-    });
-    
-    slideElements.forEach((el, index) => {
-      setTimeout(() => {
-        el.style.opacity = '1';
-        el.style.transform = 'translateX(0)';
-      }, 200 * index);
-    });
-  }, []);
-
   return (
     <div className="home-page">
       <section className="hero-section">
@@ -61,67 +41,6 @@ const HomePage = () => {
               الدخول كضيف
             </Link>
           </div>
-        </div>
-      </section>
-      
-      <section className="features-section">
-        <h2 className="section-title">ماذا يمكنك أن تفعل؟</h2>
-        <p className="section-subtitle">
-          منصة PredictBattle تمنحك تجربة فريدة لتحدي أصدقائك وزملائك في سباق التوقعات المستقبلية
-        </p>
-        
-        <div className="features-grid">
-          <div className="feature-card fade-in">
-            <div>
-              <div className="feature-icon">🚀</div>
-              <h3 className="feature-title">إنشاء جلسات</h3>
-              <p className="feature-description">
-                أنشئ جلسات توقع حول أي موضوع تهتم به، من الرياضة إلى السياسة والعلوم وأكثر من ذلك
-              </p>
-            </div>
-          </div>
-          
-          <div className="feature-card fade-in">
-            <div>
-              <div className="feature-icon">👥</div>
-              <h3 className="feature-title">دعوة الأصدقاء</h3>
-              <p className="feature-description">
-                شارك رمز الجلسة المكون من 6 أحرف لدعوة الآخرين للانضمام والمشاركة في التوقعات
-              </p>
-            </div>
-          </div>
-          
-          <div className="feature-card fade-in">
-            <div>
-              <div className="feature-icon">🔮</div>
-              <h3 className="feature-title">قدم توقعاتك</h3>
-              <p className="feature-description">
-                أدخل توقعاتك في مختلف المواضيع والتحديات وسجل رأيك حول الأحداث المستقبلية
-              </p>
-            </div>
-          </div>
-          
-          <div className="feature-card fade-in">
-            <div>
-              <div className="feature-icon">📊</div>
-              <h3 className="feature-title">قارن الآراء</h3>
-              <p className="feature-description">
-                اطلع على توقعات الآخرين وقارنها بتوقعاتك لمعرفة تنوع الآراء والرؤى المختلفة
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="cta-section">
-        <div className="cta-container">
-          <h2 className="cta-title">ابدأ المنافسة الآن!</h2>
-          <p className="cta-description">
-            انضم إلى مجتمع المتنبئين وشارك في تحديات التوقعات الممتعة والتفاعلية
-          </p>
-          <Link to="/register" className="cta-btn">
-            إنشاء حساب مجاني
-          </Link>
         </div>
       </section>
     </div>

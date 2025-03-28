@@ -83,7 +83,6 @@ const GuestLoginPage = () => {
                     onChange={onChange}
                     placeholder="أدخل اسمك"
                   />
-                  <span className="input-icon">👤</span>
                 </div>
               </div>
               

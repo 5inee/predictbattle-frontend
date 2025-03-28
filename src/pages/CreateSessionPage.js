@@ -83,9 +83,6 @@ const CreateSessionPage = () => {
     <div className="create-session-page">
       <div className="page-header">
         <h1 className="page-title">إنشاء جلسة توقع جديدة</h1>
-        <p className="page-subtitle">
-          أنشئ تحديًا جديدًا واجمع توقعات المشاركين حول أي موضوع تختاره
-        </p>
       </div>
       
       <div className="form-card">
@@ -105,9 +102,6 @@ const CreateSessionPage = () => {
               placeholder="اكتب سؤال التحدي هنا... مثال: من سيفوز بكأس العالم 2026؟"
               rows={4}
             ></textarea>
-            <small className="form-text">
-              اكتب سؤالًا واضحًا يمكن للمشاركين التنبؤ بنتيجته
-            </small>
           </div>
           
           <div className="form-section">
@@ -139,13 +133,13 @@ const CreateSessionPage = () => {
           <div className="form-section">
             <h3 className="section-label">الرمز السري</h3>
             <input
-              type="text"
+              type="password"
               id="secretCode"
               name="secretCode"
               className="form-control code-input"
               value={secretCode}
               onChange={onChange}
-              placeholder="أدخل الرمز السري (021)"
+              placeholder="أدخل الرمز السري"
             />
             <small className="form-text">
               الرمز السري مطلوب لمنع إنشاء جلسات عشوائية

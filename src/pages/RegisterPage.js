@@ -103,7 +103,6 @@ const RegisterPage = () => {
                     onChange={onChange}
                     placeholder="أدخل اسم المستخدم"
                   />
-                  <span className="input-icon">👤</span>
                 </div>
               </div>
               
@@ -119,7 +118,6 @@ const RegisterPage = () => {
                     onChange={onChange}
                     placeholder="أدخل كلمة المرور (6 أحرف على الأقل)"
                   />
-                  <span className="input-icon">🔒</span>
                 </div>
               </div>
               
@@ -135,7 +133,6 @@ const RegisterPage = () => {
                     onChange={onChange}
                     placeholder="أعد إدخال كلمة المرور"
                   />
-                  <span className="input-icon">🔒</span>
                 </div>
               </div>
               

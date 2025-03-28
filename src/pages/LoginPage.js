@@ -90,7 +90,6 @@ const LoginPage = () => {
                     onChange={onChange}
                     placeholder="أدخل اسم المستخدم"
                   />
-                  <span className="input-icon">👤</span>
                 </div>
               </div>
               
@@ -106,7 +105,6 @@ const LoginPage = () => {
                     onChange={onChange}
                     placeholder="أدخل كلمة المرور"
                   />
-                  <span className="input-icon">🔒</span>
                 </div>
               </div>
               

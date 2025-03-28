@@ -107,9 +107,6 @@ const DashboardPage = () => {
     <div className="dashboard-page">
       <div className="dashboard-header">
         <h1 className="dashboard-title">لوحة التحكم</h1>
-        <p className="dashboard-subtitle">
-          استكشف التحديات، انضم للجلسات، وشارك توقعاتك مع الآخرين
-        </p>
       </div>
       
       <div className="dashboard-tabs">
