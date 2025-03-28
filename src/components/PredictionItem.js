@@ -70,13 +70,6 @@ const PredictionItem = ({ prediction, isCurrentUser }) => {
       <div className="prediction-content">
         <p>{prediction.text}</p>
       </div>
-      
-      <div className="prediction-footer">
-        <div className="prediction-actions">
-          <button className="prediction-action action-like">أعجبني</button>
-          <button className="prediction-action action-share">مشاركة</button>
-        </div>
-      </div>
     </div>
   );
 };

@@ -99,7 +99,7 @@ const CreateSessionPage = () => {
               className="form-control"
               value={title}
               onChange={onChange}
-              placeholder="اكتب سؤال التحدي هنا... مثال: من سيفوز بكأس العالم 2026؟"
+              placeholder="اكتب سؤال التحدي هنا..."
               rows={4}
             ></textarea>
           </div>
@@ -139,7 +139,7 @@ const CreateSessionPage = () => {
               className="form-control code-input"
               value={secretCode}
               onChange={onChange}
-              placeholder="أدخل الرمز السري"
+              placeholder="أدخل الرمز السري الخاص بإنشاء الجلسات"
             />
             <small className="form-text">
               الرمز السري مطلوب لمنع إنشاء جلسات عشوائية

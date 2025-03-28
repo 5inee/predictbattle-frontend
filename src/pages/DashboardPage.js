@@ -144,7 +144,7 @@ const DashboardPage = () => {
                   <input
                     type="text"
                     className="form-control session-code-input"
-                    placeholder="أدخل كود الجلسة"
+                    placeholder="ABX123"
                     value={sessionCode}
                     onChange={handleCodeChange}
                     maxLength={6}

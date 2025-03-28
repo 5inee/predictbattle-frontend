@@ -224,10 +224,8 @@ const SessionPage = () => {
             </form>
             
             {/* رسالة إخبارية للمستخدم بضرورة إرسال التوقع أولاً */}
-            <div className="alert alert-info mt-4">
-              <p>
-                <strong>ملاحظة:</strong> يجب عليك إرسال توقعك أولاً قبل أن تتمكن من مشاهدة توقعات المشاركين الآخرين.
-              </p>
+            <div className="alert-info mt-4">
+              يجب عليك إرسال توقعك أولاً قبل أن تتمكن من مشاهدة توقعات المشاركين الآخرين
             </div>
           </div>
         )}
@@ -263,10 +261,8 @@ const SessionPage = () => {
         
         {/* إظهار رسالة للمستخدم عند إرسال التوقع في حالة عدم وجود توقعات أخرى */}
         {userHasPredicted && session.predictions.length <= 1 && (
-          <div className="alert alert-info mt-4">
-            <p>
-              <strong>أنت أول من قدم توقعًا!</strong> توقعات المشاركين الآخرين ستظهر هنا بمجرد إرسالها.
-            </p>
+          <div className="alert-info mt-4">
+            توقعات المشاركين الآخرين ستظهر هنا بمجرد إرسالها
           </div>
         )}
       </div>
