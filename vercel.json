@@ -1,19 +1,7 @@
 {
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build",
-        "buildCommand": "CI=false npx react-scripts build"
-      }
-    }
-  ],
-  "routes": [
-    { "src": "/static/(.*)", "dest": "/static/$1" },
-    { "src": "/favicon.ico", "dest": "/favicon.ico" },
-    { "src": "/manifest.json", "dest": "/manifest.json" },
-    { "src": "/logo(.*).png", "dest": "/logo$1.png" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
+  "framework": "create-react-app",
+  "buildCommand": "CI=false npm run build",
+  "devCommand": "npm start",
+  "outputDirectory": "build",
+  "installCommand": "npm install --force"
 }
